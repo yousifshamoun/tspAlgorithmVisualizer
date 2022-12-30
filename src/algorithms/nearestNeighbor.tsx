@@ -1,7 +1,11 @@
 import React from "react";
 import distance from "../utils/distance";
 import pathCost from "../utils/pathCost";
-const nearestNeighbor = (points: number[][]) => {
+import store from "../store";
+import { getRoutes } from "../utils/getData";
+import delay from "../utils/handleDelay";
+import { add_to_render_primary } from "../store/action";
+const nearestNeighbor = async (points: number[][]) => {
     const path: number[][] = [points.shift()!];
 
     while (points.length > 0) {
@@ -12,6 +16,8 @@ const nearestNeighbor = (points: number[][]) => {
         );
 
         path.push(points.pop()!);
+        store.dispatch(add_to_render_primary(getRoutes(path)));
+        await delay(300);
     }
 
     path.push(path[0]);

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { add_to_render_primary } from "../store/action";
 import { useDispatch } from "react-redux";
 import nearestNeighbor from "../algorithms/nearestNeighbor";
+import arbitraryInsertion from "../algorithms/arbitraryInsertion";
 import { getData, getRoutes } from "../utils/getData";
 export default function Menu() {
     const dispatch = useDispatch();
@@ -10,9 +11,16 @@ export default function Menu() {
     const handleStart = () => {
         switch (selectedAlgorithm) {
             case "nearest neighbor":
-                dispatch(
-                    add_to_render_primary(getRoutes(nearestNeighbor(getData())))
-                );
+                // dispatch(
+                //     add_to_render_primary(getRoutes(nearestNeighbor(getData())))
+                // );
+                nearestNeighbor(getData());
+                break;
+            case "arbitrary insertion":
+                arbitraryInsertion(getData());
+                break;
+            case "nearest insertion":
+                arbitraryInsertion(getData());
                 break;
             default:
                 throw new Error("Invalid Algorithm Selected");

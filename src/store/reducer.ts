@@ -9,17 +9,18 @@ export interface globalState {
 const initialState = {
     render_primary: [],
 };
-export const globalReducer = (
+function globalReducer(
     state: globalState = initialState,
     action: Action
-) => {
+) {
     switch (action.type) {
         case "SET_RENDER_PRIMARY":
             return {
-                ...state,
-                render_primary: [...state.render_primary, ...action.payload],
+                ...state,   
+                render_primary: action.payload,
             };
         default:
             return state;
     }
 };
+export default globalReducer;
