@@ -7,11 +7,13 @@ export interface globalState {
     render_primary: Path[];
     current_path: number;
     best_path: number;
+    paused: boolean;
 }
 const initialState = {
     render_primary: [],
     current_path: 0,
     best_path: 0,
+    paused: false,
 };
 function globalReducer(state: globalState = initialState, action: Action) {
     switch (action.type) {
@@ -29,6 +31,11 @@ function globalReducer(state: globalState = initialState, action: Action) {
             return { ...state, current_path: action.payload };
         case 'SET_BEST_PATH':
             return { ...state, best_path: action.payload };
+        case 'TOGGLE_PAUSE':
+            return {
+                ...state,
+                paused: !state.paused,
+            };
         default:
             return state;
     }

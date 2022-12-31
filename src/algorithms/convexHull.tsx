@@ -6,6 +6,7 @@ import { getRoutes } from '../utils/getData';
 import delay from '../utils/handleDelay';
 import counterClockWise from '../utils/counterClockwise';
 import rotateToStartingPoint from '../utils/rotateToStartingPoint';
+import pause from '../utils/handlePause';
 import {
     add_to_render_primary,
     set_current_path,
@@ -42,6 +43,7 @@ const convexHull = async (points: number[][]) => {
             store.dispatch(
                 add_to_render_primary(getRoutes([curPoint, points[i]]))
             );
+            await new Promise(pause);
             await delay(100);
             if (
                 !selectedPoint ||
@@ -66,6 +68,7 @@ const convexHull = async (points: number[][]) => {
 
     store.dispatch(add_to_render_primary(getRoutes(path)));
     store.dispatch(set_current_path(pathCost(path)));
+    await new Promise(pause);
     await delay(100);
 
     while (points.length > 0) {
@@ -74,21 +77,21 @@ const convexHull = async (points: number[][]) => {
         let insertIdx: any = 0;
         // let [bestRatio, bestPointIdx, insertIdx] = [Infinity, 0, 0];
 
-        for (let i = 0; i < points.length; i++) {
+        for (let [freeIdx, freePoint] of points.entries()) {
             // for every free point, find the point in the current path
             // that minimizes the cost of adding the path minus the cost of
             // the original segment
             let [bestCost, bestIdx] = [Infinity, 0];
-            for (let j = 0; j < path.length; j++) {
-                const nextPathPoint = path[(j + 1) % path.length];
+            for (let [pathIdx, pathPoint] of path.entries()) {
+                const nextPathPoint = path[(pathIdx + 1) % path.length];
 
                 // the new cost minus the old cost
                 const evalCost =
-                    pathCost([path[j], points[i], nextPathPoint]) -
-                    pathCost([points[i], nextPathPoint]);
+                    pathCost([pathPoint, freePoint, nextPathPoint]) -
+                    pathCost([pathPoint, nextPathPoint]);
 
                 if (evalCost < bestCost) {
-                    [bestCost, bestIdx] = [evalCost, j];
+                    [bestCost, bestIdx] = [evalCost, pathIdx];
                 }
             }
 
@@ -96,11 +99,15 @@ const convexHull = async (points: number[][]) => {
             // overall length of the segment
             const nextPoint = path[(bestIdx + 1) % path.length];
             const prevCost = pathCost([path[bestIdx], nextPoint]);
-            const newCost = pathCost([path[bestIdx], points[i], nextPoint]);
+            const newCost = pathCost([path[bestIdx], freePoint, nextPoint]);
             const ratio = newCost / prevCost;
 
             if (ratio < bestRatio) {
-                [bestRatio, bestPointIdx, insertIdx] = [ratio, i, bestIdx + 1];
+                [bestRatio, bestPointIdx, insertIdx] = [
+                    ratio,
+                    freeIdx,
+                    bestIdx + 1,
+                ];
             }
         }
 
@@ -109,6 +116,7 @@ const convexHull = async (points: number[][]) => {
 
         store.dispatch(add_to_render_primary(getRoutes(path)));
         store.dispatch(set_current_path(pathCost(path)));
+        await new Promise(pause);
         await delay(100);
     }
 
@@ -119,8 +127,9 @@ const convexHull = async (points: number[][]) => {
     path.push(sp);
 
     store.dispatch(add_to_render_primary(getRoutes(path)));
+    store.dispatch(set_current_path(pathCost(path)));
     const cost = pathCost(path);
-    if (cost < store.getState().best_path) {
+    if (store.getState().best_path === 0 || cost < store.getState().best_path) {
         store.dispatch(set_best_path(cost));
     }
 };

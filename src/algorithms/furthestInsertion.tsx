@@ -4,6 +4,7 @@ import pathCost from '../utils/pathCost';
 import store from '../store';
 import { getRoutes } from '../utils/getData';
 import delay from '../utils/handleDelay';
+import pause from '../utils/handlePause';
 import {
     add_to_render_primary,
     set_current_path,
@@ -21,6 +22,7 @@ const furthestInsertion = async (points: number[][]) => {
 
     store.dispatch(add_to_render_primary(getRoutes(path)));
     store.dispatch(set_current_path(pathCost(path)));
+    await new Promise(pause);
     await delay(100);
 
     while (points.length > 0) {
@@ -66,6 +68,7 @@ const furthestInsertion = async (points: number[][]) => {
 
         store.dispatch(add_to_render_primary(getRoutes(path)));
         store.dispatch(set_current_path(pathCost(path)));
+        await new Promise(pause);
         await delay(100);
     }
 
@@ -73,9 +76,10 @@ const furthestInsertion = async (points: number[][]) => {
     path.push(path[0]);
 
     store.dispatch(add_to_render_primary(getRoutes(path)));
+    await new Promise(pause);
     await delay(100);
     const cost = pathCost(path);
-    if (cost < store.getState().best_path) {
+    if (store.getState().best_path === 0 || cost < store.getState().best_path) {
         store.dispatch(set_best_path(cost));
     }
 

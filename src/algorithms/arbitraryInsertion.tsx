@@ -4,6 +4,7 @@ import pathCost from '../utils/pathCost';
 import store from '../store';
 import { getRoutes } from '../utils/getData';
 import delay from '../utils/handleDelay';
+import pause from '../utils/handlePause';
 import {
     add_to_render_primary,
     set_current_path,
@@ -21,7 +22,6 @@ const arbitraryInsertion = async (points: number[][]) => {
 
     store.dispatch(add_to_render_primary(getRoutes(path)));
     store.dispatch(set_current_path(pathCost(path)));
-    // await delay(100);
 
     // randomly sort points - this is the order they will be added
     // to the path
@@ -46,15 +46,17 @@ const arbitraryInsertion = async (points: number[][]) => {
         path.splice(bestIdx, 0, nextPoint);
         store.dispatch(add_to_render_primary(getRoutes(path)));
         store.dispatch(set_current_path(pathCost(path)));
+        await new Promise(pause);
         await delay(100);
     }
     // return to start after visiting all other points
     path.push(path[0]);
     store.dispatch(add_to_render_primary(getRoutes(path)));
     store.dispatch(set_current_path(pathCost(path)));
+    await new Promise(pause);
     await delay(100);
     const cost = pathCost(path);
-    if (cost < store.getState().best_path) {
+    if (store.getState().best_path === 0 || cost < store.getState().best_path) {
         store.dispatch(set_best_path(cost));
     }
     // self.setBestPath(path, cost);

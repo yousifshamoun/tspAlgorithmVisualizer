@@ -4,6 +4,7 @@ import pathCost from '../utils/pathCost';
 import store from '../store';
 import { getRoutes } from '../utils/getData';
 import delay from '../utils/handleDelay';
+import pause from '../utils/handlePause';
 import {
     add_to_render_primary,
     set_current_path,
@@ -22,6 +23,7 @@ const nearestNeighbor = async (points: number[][]) => {
         path.push(points.pop()!);
         store.dispatch(add_to_render_primary(getRoutes(path)));
         store.dispatch(set_current_path(pathCost(path)));
+        await new Promise(pause);
         await delay(100);
     }
 

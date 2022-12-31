@@ -1,7 +1,7 @@
 import { Path } from './reducer';
 export type Action = {
     type: string;
-    payload: any;
+    payload?: any;
 };
 export const add_to_render_primary = (args: Path[]) => {
     return {
@@ -25,5 +25,10 @@ export const set_best_path = (args: number) => {
     return {
         type: 'SET_BEST_PATH',
         payload: args,
+    };
+};
+export const toggle_pause = () => {
+    return {
+        type: 'TOGGLE_PAUSE',
     };
 };

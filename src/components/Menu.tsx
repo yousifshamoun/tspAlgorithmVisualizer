@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
-import { add_to_render_primary } from '../store/action';
+import {
+    add_to_render_primary,
+    reset_render_primary,
+    toggle_pause,
+} from '../store/action';
 import { useDispatch } from 'react-redux';
-import { reset_render_primary } from '../store/action';
 import nearestNeighbor from '../algorithms/nearestNeighbor';
 import arbitraryInsertion from '../algorithms/arbitraryInsertion';
 import furthestInsertion from '../algorithms/furthestInsertion';
@@ -92,6 +95,7 @@ export default function Menu() {
 
                 <button
                     className="w-1/3 flex justify-center items-center border-r-2"
+                    onClick={() => store.dispatch(toggle_pause())}
                     // disabled={running}
                 >
                     <p className="font-semibold text-[#00819E]">Pause</p>
