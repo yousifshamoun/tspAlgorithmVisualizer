@@ -9,10 +9,9 @@ import {
     set_current_path,
     set_best_path,
 } from '../store/action';
-
-const nearestInsertion = async (points: number[][]) => {
+const furthestInsertion = async (points: number[][]) => {
     // from the starting point
-    const path: number[][] = [points.shift()!];
+    const path = [points.shift()!];
 
     //
     // INITIALIZATION - go to the nearest point first
@@ -26,24 +25,26 @@ const nearestInsertion = async (points: number[][]) => {
 
     while (points.length > 0) {
         //
-        // SELECTION - nearest point to the path
+        // SELECTION - furthest point from the path
         //
-        let selectedDistance: number = Infinity;
+        let selectedDistance: number = 0;
         let selectedIdx: any = null;
-        // for (const [freePointIdx, freePoint] of points.entries()) {
-        //     for (const pathPoint of path) {
-        //     const dist = distance(freePoint, pathPoint);
-        //     if (dist < selectedDistance) {
-        //         [selectedDistance, selectedIdx] = [dist, freePointIdx];
-        //     }
-        //     }
-        // }
         points.forEach((freePoint, freePointIdx) => {
+            // find the minimum distance to the path for freePoint
+            let [bestCostToPath, costToPathIdx] = [Infinity, -1];
             for (const pathPoint of path) {
                 const dist = distance(freePoint, pathPoint);
-                if (dist < selectedDistance) {
-                    [selectedDistance, selectedIdx] = [dist, freePointIdx];
+                if (dist < bestCostToPath) {
+                    [bestCostToPath, costToPathIdx] = [dist, freePointIdx];
                 }
+            }
+
+            // if this point is further from the path than the currently selected
+            if (bestCostToPath > selectedDistance) {
+                [selectedDistance, selectedIdx] = [
+                    bestCostToPath,
+                    costToPathIdx,
+                ];
             }
         });
 
@@ -65,7 +66,6 @@ const nearestInsertion = async (points: number[][]) => {
 
         store.dispatch(add_to_render_primary(getRoutes(path)));
         store.dispatch(set_current_path(pathCost(path)));
-
         await delay(100);
     }
 
@@ -73,7 +73,6 @@ const nearestInsertion = async (points: number[][]) => {
     path.push(path[0]);
 
     store.dispatch(add_to_render_primary(getRoutes(path)));
-    store.dispatch(set_current_path(pathCost(path)));
     await delay(100);
     const cost = pathCost(path);
     if (cost < store.getState().best_path) {
@@ -82,4 +81,4 @@ const nearestInsertion = async (points: number[][]) => {
 
     // self.setBestPath(path, cost);
 };
-export default nearestInsertion;
+export default furthestInsertion;

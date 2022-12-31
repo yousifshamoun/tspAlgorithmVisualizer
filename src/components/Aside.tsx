@@ -1,8 +1,14 @@
-import React from "react";
-import Menu from "./Menu";
-import { useSelector } from "react-redux";
+import React from 'react';
+import Menu from './Menu';
+import { useSelector } from 'react-redux';
+import { globalState } from '../store/reducer';
 export default function Aside() {
-    const value: any = useSelector((state) => state);
+    const current_path: number = useSelector(
+        (state: globalState) => state.current_path
+    );
+    const best_path: number = useSelector(
+        (state: globalState) => state.best_path
+    );
     return (
         <div className="flex flex-col p-[16px] ">
             <div className="w-[380px] h-[50px] gap-10">
@@ -38,7 +44,7 @@ export default function Aside() {
                     >
                         CURRENT PATH:
                         <span className="text-gray-800">
-                            {/* {dist ? dist.toFixed(2) : ""} KM */}
+                            {current_path ? current_path.toFixed(2) : ''} KM
                         </span>
                     </div>
                     <div
@@ -47,7 +53,7 @@ export default function Aside() {
                     >
                         BEST PATH:
                         <span className="text-gray-800">
-                            {/* {best ? best.toFixed(2) : ""} KM */}
+                            {best_path ? best_path.toFixed(2) : ''} KM
                         </span>
                     </div>
                     <Menu />

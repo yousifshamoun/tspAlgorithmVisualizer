@@ -1,47 +1,55 @@
-import React, { useState } from "react";
-import { add_to_render_primary } from "../store/action";
-import { useDispatch } from "react-redux";
-import nearestNeighbor from "../algorithms/nearestNeighbor";
-import arbitraryInsertion from "../algorithms/arbitraryInsertion";
-import { getData, getRoutes } from "../utils/getData";
+import React, { useState } from 'react';
+import { add_to_render_primary } from '../store/action';
+import { useDispatch } from 'react-redux';
+import { reset_render_primary } from '../store/action';
+import nearestNeighbor from '../algorithms/nearestNeighbor';
+import arbitraryInsertion from '../algorithms/arbitraryInsertion';
+import furthestInsertion from '../algorithms/furthestInsertion';
+import store from '../store';
+import convexHull from '../algorithms/convexHull';
+import { getData, getRoutes } from '../utils/getData';
 export default function Menu() {
     const dispatch = useDispatch();
     const [selectedAlgorithm, setSelectedAlgorithm] =
-        useState("nearest neighbor");
+        useState('nearest neighbor');
     const handleStart = () => {
         switch (selectedAlgorithm) {
-            case "nearest neighbor":
-                // dispatch(
-                //     add_to_render_primary(getRoutes(nearestNeighbor(getData())))
-                // );
+            case 'nearest neighbor':
                 nearestNeighbor(getData());
                 break;
-            case "arbitrary insertion":
+            case 'arbitrary insertion':
                 arbitraryInsertion(getData());
                 break;
-            case "nearest insertion":
+            case 'nearest insertion':
                 arbitraryInsertion(getData());
                 break;
+            case 'furthest insertion':
+                furthestInsertion(getData());
+                break;
+            case 'convex hull':
+                convexHull(getData());
+                break;
+
             default:
-                throw new Error("Invalid Algorithm Selected");
+                throw new Error('Invalid Algorithm Selected');
         }
     };
     const onInputChange = (e: any) => setSelectedAlgorithm(e.target.value);
     const topics = [
         {
-            name: "nearest neighbor",
+            name: 'nearest neighbor',
         },
         {
-            name: "arbitrary insertion",
+            name: 'arbitrary insertion',
         },
         {
-            name: "nearest insertion",
+            name: 'nearest insertion',
         },
         {
-            name: "furthest insertion",
+            name: 'furthest insertion',
         },
         {
-            name: "convex hull",
+            name: 'convex hull',
         },
     ];
     return (
@@ -70,47 +78,30 @@ export default function Menu() {
             <div className="text-gray-500 font-semibold mt-4 mb-2">
                 CONTROLS
             </div>
-            <div
-                className="flex justify-center items-center 
-      rounded w-full border-2 h-[45px] border-[#00819E]"
-            >
+            <div className="flex rounded border-2  border-[#00819E]">
                 {/* ${
                     !running && "cursor-pointer"
                 } */}
                 <button
                     onClick={() => handleStart()}
-                    // onClick={() => {
-                    //     setAni();
-                    // }}
+                    className="w-1/3 flex justify-center items-center border-r-2"
                     // disabled={running}
-                    className={`text-2xl  font-semibold
-          text-[#00819E] 
-           w-[33%] h-full items-center flex 
-            justify-center border-r-2 border-[#00819E]`}
                 >
-                    Start
+                    <p className="font-semibold text-[#00819E]">Start</p>
                 </button>
 
                 <button
-                    // onClick={() => dispatch(decrement())}
-                    // onClick={setRandom}
+                    className="w-1/3 flex justify-center items-center border-r-2"
                     // disabled={running}
-                    className={`text-2xl  font-semibold
-          text-[#00819E] w-[33%] h-full items-center flex border-r-2 
-          border-[#00819E] justify-center`}
                 >
-                    Shuffle
+                    <p className="font-semibold text-[#00819E]">Pause</p>
                 </button>
                 <button
-                    // onClick={() => {
-                    //     reset();
-                    // }}
+                    onClick={() => store.dispatch(reset_render_primary())}
+                    className="w-1/3 flex justify-center items-center"
                     // disabled={running}
-                    className={`text-2xl  font-semibold
-          text-[#00819E] w-[33%] h-full items-center flex 
-            justify-center`}
                 >
-                    Reset
+                    <p className="font-semibold text-[#00819E]">Reset</p>
                 </button>
             </div>
         </div>
