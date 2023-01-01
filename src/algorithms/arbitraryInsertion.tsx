@@ -1,16 +1,16 @@
-import React from 'react';
-import distance from '../utils/distance';
-import pathCost from '../utils/pathCost';
-import store from '../store';
-import { getRoutes } from '../utils/getData';
-import delay from '../utils/handleDelay';
-import pause from '../utils/handlePause';
+import React from "react";
+import distance from "../utils/distance";
+import pathCost from "../utils/pathCost";
+import store from "../store";
+import { getRoutes } from "../utils/getData";
+import delay from "../utils/handleDelay";
+import pause from "../utils/handlePause";
 import {
     add_to_render_primary,
     set_current_path,
     set_best_path,
-} from '../store/action';
-import { globalState } from '../store/reducer';
+} from "../store/action";
+import { globalState } from "../store/reducer";
 const arbitraryInsertion = async (points: number[][]) => {
     // from the starting point
     const path: number[][] = [points.shift()!];
@@ -59,6 +59,8 @@ const arbitraryInsertion = async (points: number[][]) => {
     if (store.getState().best_path === 0 || cost < store.getState().best_path) {
         store.dispatch(set_best_path(cost));
     }
+    store.dispatch(add_to_render_primary(getRoutes(path)));
+    store.dispatch(set_current_path(pathCost(path)));
     // self.setBestPath(path, cost);
 };
 export default arbitraryInsertion;

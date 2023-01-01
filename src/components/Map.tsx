@@ -1,14 +1,13 @@
-import React from "react";
 import Map, { Point } from "react-map-gl";
 import { ScatterplotLayer, LineLayer } from "@deck.gl/layers/typed";
+import LinearProgress from "@mui/material/LinearProgress";
 import DeckGL from "@deck.gl/react/typed";
-import { getData, getRoutes } from "../utils/getData";
-import nearestNeighbor from "../algorithms/nearestNeighbor";
 import { useSelector } from "react-redux";
 import { globalState } from "../store/reducer";
 export default function MapPlot() {
-    const points = getData();
     const ROUTE = useSelector((state: globalState) => state.render_primary);
+    const DATA = useSelector((state: globalState) => state.data);
+    const running = useSelector((state: globalState) => state.running);
     const viewport = {
         latitude: 40,
         longitude: -89,
@@ -17,7 +16,7 @@ export default function MapPlot() {
     const PointPlot = [
         new ScatterplotLayer<number[]>({
             id: "scatter-plot",
-            data: points,
+            data: DATA,
             radiusMinPixels: 5,
             getRadius: (d) => 5,
             filled: true,
@@ -31,7 +30,7 @@ export default function MapPlot() {
             opacity: 0.8,
             getSourcePosition: (d) => d.start,
             getTargetPosition: (d) => d.end,
-            getColor: (d: any) => [23, 108, 213],
+            getColor: (d: any) => (running ? [23, 108, 213] : [75, 181, 67]),
             getWidth: (d) => 3,
         }),
     ];
@@ -42,9 +41,10 @@ export default function MapPlot() {
                 initialViewState={viewport}
                 controller={true}
                 layers={PointPlot}
-                width={1000}
-                height={1000}
+                width="100%"
+                height="100%"
             >
+                {running && <LinearProgress />}
                 <Map
                     mapStyle="mapbox://styles/mapbox/light-v8"
                     mapboxAccessToken={

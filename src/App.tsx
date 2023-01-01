@@ -4,7 +4,7 @@ import Map from "./components/Map";
 function App() {
     return (
         <div className="flex">
-            <div className="w-1/3">
+            <div className="w-5/16">
                 <Aside />
             </div>
             <div>
