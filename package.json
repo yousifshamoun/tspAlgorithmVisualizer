@@ -6,6 +6,7 @@
     "@danmarshall/deckgl-typings": "^3.5.0",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
+    "@headlessui/react": "^1.7.7",
     "@mui/material": "^5.11.2",
     "@redux-devtools/extension": "^3.2.3",
     "@testing-library/jest-dom": "^5.16.5",

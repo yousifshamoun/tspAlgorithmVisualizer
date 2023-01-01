@@ -11,6 +11,7 @@ export interface globalState {
     paused: boolean;
     running: boolean;
     data: number[][];
+    delay: number;
 }
 const initialState = {
     render_primary: [],
@@ -19,6 +20,7 @@ const initialState = {
     paused: false,
     running: false,
     data: initialData,
+    delay: 100,
 };
 function globalReducer(state: globalState = initialState, action: Action) {
     switch (action.type) {
@@ -45,6 +47,8 @@ function globalReducer(state: globalState = initialState, action: Action) {
             return { ...state, data: action.payload };
         case "TOGGLE_RUNNING":
             return { ...state, running: !state.running };
+        case "SET_DELAY":
+            return {...state, delay: action.payload}
         default:
             return state;
     }

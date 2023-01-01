@@ -44,7 +44,7 @@ export default function MapPlot() {
                 width="100%"
                 height="100%"
             >
-                {running && <LinearProgress />}
+                {/* {running && <LinearProgress />} */}
                 <Map
                     mapStyle="mapbox://styles/mapbox/light-v8"
                     mapboxAccessToken={

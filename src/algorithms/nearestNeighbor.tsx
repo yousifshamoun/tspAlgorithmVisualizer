@@ -11,6 +11,7 @@ import {
     set_best_path,
 } from "../store/action";
 const nearestNeighbor = async (points: number[][]) => {
+    const time = store.getState().delay;
     const path: number[][] = [points.shift()!];
 
     while (points.length > 0) {
@@ -24,7 +25,7 @@ const nearestNeighbor = async (points: number[][]) => {
         store.dispatch(add_to_render_primary(getRoutes(path)));
         store.dispatch(set_current_path(pathCost(path)));
         await new Promise(pause);
-        await delay(100);
+        await delay(time);
     }
 
     path.push(path[0]);
