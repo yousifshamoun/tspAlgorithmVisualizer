@@ -48,7 +48,7 @@ function globalReducer(state: globalState = initialState, action: Action) {
         case "TOGGLE_RUNNING":
             return { ...state, running: !state.running };
         case "SET_DELAY":
-            return {...state, delay: action.payload}
+            return { ...state, delay: action.payload };
         default:
             return state;
     }

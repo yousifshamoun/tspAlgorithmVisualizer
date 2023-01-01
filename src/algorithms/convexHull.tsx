@@ -1,19 +1,20 @@
-import React from 'react';
-import distance from '../utils/distance';
-import pathCost from '../utils/pathCost';
-import store from '../store';
-import { getRoutes } from '../utils/getData';
-import delay from '../utils/handleDelay';
-import counterClockWise from '../utils/counterClockwise';
-import rotateToStartingPoint from '../utils/rotateToStartingPoint';
-import pause from '../utils/handlePause';
+import React from "react";
+import distance from "../utils/distance";
+import pathCost from "../utils/pathCost";
+import store from "../store";
+import { getRoutes } from "../utils/getData";
+import delay from "../utils/handleDelay";
+import counterClockWise from "../utils/counterClockwise";
+import rotateToStartingPoint from "../utils/rotateToStartingPoint";
+import pause from "../utils/handlePause";
 import {
     add_to_render_primary,
     set_current_path,
     set_best_path,
-} from '../store/action';
+} from "../store/action";
 
 const convexHull = async (points: number[][]) => {
+    const time = store.getState().delay;
     const sp = points[0];
 
     // Find the "left most point"
@@ -44,7 +45,7 @@ const convexHull = async (points: number[][]) => {
                 add_to_render_primary(getRoutes([curPoint, points[i]]))
             );
             await new Promise(pause);
-            await delay(100);
+            await delay(time);
             if (
                 !selectedPoint ||
                 counterClockWise(curPoint, points[i], selectedPoint)
@@ -69,7 +70,7 @@ const convexHull = async (points: number[][]) => {
     store.dispatch(add_to_render_primary(getRoutes(path)));
     store.dispatch(set_current_path(pathCost(path)));
     await new Promise(pause);
-    await delay(100);
+    await delay(time);
 
     while (points.length > 0) {
         let bestRatio: number = Infinity;
@@ -117,7 +118,7 @@ const convexHull = async (points: number[][]) => {
         store.dispatch(add_to_render_primary(getRoutes(path)));
         store.dispatch(set_current_path(pathCost(path)));
         await new Promise(pause);
-        await delay(100);
+        await delay(time);
     }
 
     // rotate the array so that starting point is back first

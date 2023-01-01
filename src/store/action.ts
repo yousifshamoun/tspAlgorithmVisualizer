@@ -47,5 +47,5 @@ export const set_delay = (args: number) => {
     return {
         type: "SET_DELAY",
         payload: args,
-    }
-}
+    };
+};
