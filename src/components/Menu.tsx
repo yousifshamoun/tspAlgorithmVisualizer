@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import {
-    add_to_render_primary,
     reset_render_primary,
     toggle_pause,
     toggle_running,
 } from "../store/action";
 import nearestNeighbor from "../algorithms/nearestNeighbor";
+import PointsSlider from "../components/PointsSlider";
 import SpeedMenu from "./SpeedMenu";
 import arbitraryInsertion from "../algorithms/arbitraryInsertion";
 import furthestInsertion from "../algorithms/furthestInsertion";
@@ -99,7 +99,7 @@ export default function Menu() {
                 } */}
                 <button
                     onClick={() => handleStart()}
-                    className="w-1/3 flex justify-center items-center border-r-2"
+                    className="w-1/3 flex justify-center items-center border-r-2 py-1"
                     disabled={running}
                 >
                     <p className="font-semibold text-[#00819E]">Start</p>
@@ -168,6 +168,7 @@ export default function Menu() {
                     <p className="font-semibold text-[#00819E]">Speed</p>
                 </button> */}
             </div>
+            <PointsSlider />
         </div>
     );
 }

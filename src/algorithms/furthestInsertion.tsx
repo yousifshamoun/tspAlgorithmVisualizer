@@ -1,4 +1,3 @@
-import React from "react";
 import distance from "../utils/distance";
 import pathCost from "../utils/pathCost";
 import store from "../store";

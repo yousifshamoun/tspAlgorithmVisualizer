@@ -1,66 +1,35 @@
 import * as React from "react";
-// import Button from "@mui/material/Button";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
 import store from "../store";
 import { set_delay } from "../store/action";
 export default function SpeedMenu() {
-    const [selectedIndex, setSelectedIndex] = React.useState(0);
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const open = Boolean(anchorEl);
-    const options = ["Set Speed", "Slow", "Medium", "Fast"];
-    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
+    const onInputChange = (e: any) => {
+        store.dispatch(set_delay(e.target.value));
     };
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-    const handleSlow = () => {
-        handleClose();
-        setSelectedIndex(1);
-        store.dispatch(set_delay(250));
-    };
-    const handleMedium = () => {
-        handleClose();
-        setSelectedIndex(2);
-        store.dispatch(set_delay(100));
-    };
-    const handleFast = () => {
-        handleClose();
-        setSelectedIndex(3);
-        store.dispatch(set_delay(50));
-    };
-
     return (
-        <div>
-            <button
-                id="demo-positioned-button"
-                aria-controls={open ? "demo-positioned-menu" : undefined}
-                aria-haspopup="true"
-                aria-expanded={open ? "true" : undefined}
-                onClick={handleClick}
+        <div className="relative">
+            <select
+                className="first-letter:block font-semibold appearance-none w-full text-[#00819E] py-1 px-2 pr-8 rounded leading-snug focus:outline-none focus:bg-white"
+                id="grid-state"
+                name="job_type"
+                // value={job_type}
+                onChange={(e) => onInputChange(e)}
             >
-                {options[selectedIndex]}
-            </button>
-            <Menu
-                id="demo-positioned-menu"
-                aria-labelledby="demo-positioned-button"
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                anchorOrigin={{
-                    vertical: "top",
-                    horizontal: "left",
-                }}
-                transformOrigin={{
-                    vertical: "top",
-                    horizontal: "left",
-                }}
-            >
-                <MenuItem onClick={handleSlow}>Slow</MenuItem>
-                <MenuItem onClick={handleMedium}>Medium</MenuItem>
-                <MenuItem onClick={handleFast}>Fast</MenuItem>
-            </Menu>
+                <option value="" disabled selected>
+                    Set Speed
+                </option>
+                <option value={250}>Slow</option>
+                <option value={100}>Medium</option>
+                <option value={25}>Fast</option>
+            </select>
+            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                <svg
+                    className="fill-current h-4 w-4"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                >
+                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                </svg>
+            </div>
         </div>
     );
 }

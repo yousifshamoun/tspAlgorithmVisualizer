@@ -1,12 +1,19 @@
 import store from "../store";
-import { set_best_path, set_data, reset_render_primary } from "../store/action";
+import {
+    set_best_path,
+    set_data,
+    reset_render_primary,
+    change_viewport_on_random,
+} from "../store/action";
 const cities = require("cities.json");
 export const getRandom = () => {
+    const pointCount = store.getState().pointCount;
     store.dispatch(set_best_path(0));
+    store.dispatch(change_viewport_on_random());
     store.dispatch(reset_render_primary());
     const res = [];
-    for (let i = 0; i < 20; i += 1) {
-        let rand_int: number = Math.floor(Math.random() * 14000);
+    for (let i = 0; i < pointCount; i += 1) {
+        let rand_int: number = Math.floor(Math.random() * 140794);
         let city = cities[rand_int];
         res.push([parseInt(city.lng), parseInt(city.lat)]);
     }

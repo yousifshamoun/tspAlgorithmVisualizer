@@ -49,3 +49,19 @@ export const set_delay = (args: number) => {
         payload: args,
     };
 };
+export const change_viewport_on_random = () => {
+    return {
+        type: "SET_VIEWPORT",
+        payload: {
+            latitude: 0,
+            longitude: 70,
+            zoom: 1,
+        },
+    };
+};
+export const set_point_count = (args: number) => {
+    return {
+        type: "SET_POINT_COUNT",
+        payload: args,
+    };
+};

@@ -1,6 +1,6 @@
-import Map, { Point } from "react-map-gl";
+import Map from "react-map-gl";
 import { ScatterplotLayer, LineLayer } from "@deck.gl/layers/typed";
-import LinearProgress from "@mui/material/LinearProgress";
+// import LinearProgress from "@mui/material/LinearProgress";
 import DeckGL from "@deck.gl/react/typed";
 import { useSelector } from "react-redux";
 import { globalState } from "../store/reducer";
@@ -8,11 +8,7 @@ export default function MapPlot() {
     const ROUTE = useSelector((state: globalState) => state.render_primary);
     const DATA = useSelector((state: globalState) => state.data);
     const running = useSelector((state: globalState) => state.running);
-    const viewport = {
-        latitude: 40,
-        longitude: -89,
-        zoom: 3,
-    };
+    const viewport = useSelector((state: globalState) => state.viewport);
     const PointPlot = [
         new ScatterplotLayer<number[]>({
             id: "scatter-plot",
@@ -24,7 +20,7 @@ export default function MapPlot() {
             getPosition: (d: number[]) => [d[0], d[1]],
             getFillColor: (d) => [234, 67, 53],
         }),
-        ,
+
         new LineLayer({
             data: ROUTE,
             opacity: 0.8,

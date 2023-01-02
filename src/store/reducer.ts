@@ -1,5 +1,10 @@
 import { Action } from "./action";
 import { initialData } from "../utils/getData";
+type viewport = {
+    latitude: number;
+    longitude: number;
+    zoom: number;
+};
 export type Path = {
     start: number[];
     end: number[];
@@ -12,6 +17,8 @@ export interface globalState {
     running: boolean;
     data: number[][];
     delay: number;
+    viewport: viewport;
+    pointCount: number;
 }
 const initialState = {
     render_primary: [],
@@ -21,6 +28,12 @@ const initialState = {
     running: false,
     data: initialData,
     delay: 100,
+    viewport: {
+        latitude: 40,
+        longitude: -80,
+        zoom: 3,
+    },
+    pointCount: 20,
 };
 function globalReducer(state: globalState = initialState, action: Action) {
     switch (action.type) {
@@ -49,6 +62,10 @@ function globalReducer(state: globalState = initialState, action: Action) {
             return { ...state, running: !state.running };
         case "SET_DELAY":
             return { ...state, delay: action.payload };
+        case "SET_VIEWPORT":
+            return { ...state, viewport: action.payload };
+        case "SET_POINT_COUNT":
+            return { ...state, pointCount: action.payload };
         default:
             return state;
     }

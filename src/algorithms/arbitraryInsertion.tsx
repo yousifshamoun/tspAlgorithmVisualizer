@@ -1,4 +1,3 @@
-import React from "react";
 import distance from "../utils/distance";
 import pathCost from "../utils/pathCost";
 import store from "../store";
@@ -10,7 +9,6 @@ import {
     set_current_path,
     set_best_path,
 } from "../store/action";
-import { globalState } from "../store/reducer";
 const arbitraryInsertion = async (points: number[][]) => {
     const time = store.getState().delay;
     // from the starting point

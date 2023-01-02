@@ -1,7 +1,7 @@
-import React from 'react';
-import Menu from './Menu';
-import { useSelector } from 'react-redux';
-import { globalState } from '../store/reducer';
+import React from "react";
+import Menu from "./Menu";
+import { useSelector } from "react-redux";
+import { globalState } from "../store/reducer";
 export default function Aside() {
     const current_path: number = useSelector(
         (state: globalState) => state.current_path
@@ -44,7 +44,7 @@ export default function Aside() {
                     >
                         CURRENT PATH:
                         <span className="text-gray-800">
-                            {current_path ? current_path.toFixed(2) : ''} KM
+                            {current_path ? current_path.toFixed(2) : ""} KM
                         </span>
                     </div>
                     <div
@@ -53,7 +53,7 @@ export default function Aside() {
                     >
                         BEST PATH:
                         <span className="text-gray-800">
-                            {best_path ? best_path.toFixed(2) : ''} KM
+                            {best_path ? best_path.toFixed(2) : ""} KM
                         </span>
                     </div>
                     <Menu />
