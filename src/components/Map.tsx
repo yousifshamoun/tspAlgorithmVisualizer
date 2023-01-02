@@ -4,6 +4,7 @@ import { ScatterplotLayer, LineLayer } from "@deck.gl/layers/typed";
 import DeckGL from "@deck.gl/react/typed";
 import { useSelector } from "react-redux";
 import { globalState } from "../store/reducer";
+
 export default function MapPlot() {
     const ROUTE = useSelector((state: globalState) => state.render_primary);
     const DATA = useSelector((state: globalState) => state.data);
@@ -43,9 +44,7 @@ export default function MapPlot() {
                 {/* {running && <LinearProgress />} */}
                 <Map
                     mapStyle="mapbox://styles/mapbox/light-v8"
-                    mapboxAccessToken={
-                        "pk.eyJ1IjoiZm94dHJvdDM3MjEiLCJhIjoiY2w1ejBsMzNuMTkyZjNjcGdmMGthanh0ZyJ9._IkSbktADaTeWWzs249ELw"
-                    }
+                    mapboxAccessToken={`${process.env.REACT_APP_MAPBOX_TOKEN}`}
                 />
             </DeckGL>
         </div>

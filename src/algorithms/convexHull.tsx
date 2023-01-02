@@ -33,7 +33,7 @@ const convexHull = async (points: number[][]) => {
 
         // find the "most counterclockwise" point
         for (let i = 0; i < points.length; i++) {
-            // eslint-disable-next-line
+            await new Promise(pause);
             store.dispatch(
                 add_to_render_primary(
                     getRoutes([...path, selectedPoint || curPoint])
@@ -42,7 +42,6 @@ const convexHull = async (points: number[][]) => {
             store.dispatch(
                 add_to_render_primary(getRoutes([curPoint, points[i]]))
             );
-            await new Promise(pause);
             await delay(time);
             if (
                 !selectedPoint ||
@@ -65,9 +64,9 @@ const convexHull = async (points: number[][]) => {
         path.push(selectedPoint);
     }
 
+    await new Promise(pause);
     store.dispatch(add_to_render_primary(getRoutes(path)));
     store.dispatch(set_current_path(pathCost(path)));
-    await new Promise(pause);
     await delay(time);
 
     while (points.length > 0) {
@@ -113,9 +112,9 @@ const convexHull = async (points: number[][]) => {
         const [nextPoint] = points.splice(bestPointIdx, 1);
         path.splice(insertIdx, 0, nextPoint);
 
+        await new Promise(pause);
         store.dispatch(add_to_render_primary(getRoutes(path)));
         store.dispatch(set_current_path(pathCost(path)));
-        await new Promise(pause);
         await delay(time);
     }
 

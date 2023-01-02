@@ -21,9 +21,9 @@ const nearestNeighbor = async (points: number[][]) => {
         );
 
         path.push(points.pop()!);
+        await new Promise(pause);
         store.dispatch(add_to_render_primary(getRoutes(path)));
         store.dispatch(set_current_path(pathCost(path)));
-        await new Promise(pause);
         await delay(time);
     }
 

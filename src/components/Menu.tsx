@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import {
+    reset_points,
     reset_render_primary,
+    reset_viewport,
     toggle_pause,
     toggle_running,
 } from "../store/action";
@@ -50,6 +52,11 @@ export default function Menu() {
         }
     };
     const onInputChange = (e: any) => setSelectedAlgorithm(e.target.value);
+    const handleReset = () => {
+        store.dispatch(reset_points());
+        store.dispatch(reset_viewport());
+        store.dispatch(reset_render_primary());
+    };
     const topics = [
         {
             name: "nearest neighbor",
@@ -146,15 +153,16 @@ export default function Menu() {
                     className="w-1/3 flex justify-center items-center"
                     disabled={running}
                 >
-                    <p className="font-semibold text-[#00819E]">Reset</p>
+                    <p className="font-semibold text-[#00819E]">Clear Path</p>
                 </button>
             </div>
             <div className="flex rounded border-2  border-[#00819E] mt-5">
                 <button
                     className="w-1/3 flex justify-center items-center border-r-2"
                     disabled={running}
+                    onClick={() => handleReset()}
                 >
-                    <p className="font-semibold text-[#00819E]">Plot</p>
+                    <p className="font-semibold text-[#00819E]">Reset</p>
                 </button>
                 <button
                     className="w-1/3 flex justify-center items-center border-r-2"

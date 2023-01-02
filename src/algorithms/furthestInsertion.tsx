@@ -20,9 +20,9 @@ const furthestInsertion = async (points: number[][]) => {
     points.sort((a, b) => distance(path[0], b) - distance(path[0], a));
     path.push(points.pop()!);
 
+    await new Promise(pause);
     store.dispatch(add_to_render_primary(getRoutes(path)));
     store.dispatch(set_current_path(pathCost(path)));
-    await new Promise(pause);
     await delay(time);
 
     while (points.length > 0) {
@@ -66,17 +66,17 @@ const furthestInsertion = async (points: number[][]) => {
         }
         path.splice(bestIdx, 0, nextPoint);
 
+        await new Promise(pause);
         store.dispatch(add_to_render_primary(getRoutes(path)));
         store.dispatch(set_current_path(pathCost(path)));
-        await new Promise(pause);
         await delay(time);
     }
 
     // return to start after visiting all other points
     path.push(path[0]);
 
-    store.dispatch(add_to_render_primary(getRoutes(path)));
     await new Promise(pause);
+    store.dispatch(add_to_render_primary(getRoutes(path)));
     await delay(time);
     const cost = pathCost(path);
     if (store.getState().best_path === 0 || cost < store.getState().best_path) {
