@@ -1,6 +1,6 @@
-import * as React from "react";
-import store from "../store";
-import { set_delay } from "../store/action";
+import * as React from 'react';
+import store from '../store';
+import { set_delay } from '../store/action';
 export default function SpeedMenu() {
     const onInputChange = (e: any) => {
         store.dispatch(set_delay(e.target.value));
@@ -8,7 +8,7 @@ export default function SpeedMenu() {
     return (
         <div className="relative">
             <select
-                className="first-letter:block font-semibold appearance-none w-full text-[#00819E] py-1 px-2 pr-8 rounded leading-snug focus:outline-none focus:bg-white"
+                className="text-sm first-letter:block font-semibold appearance-none w-full text-[#00819E] py-1 px-2 pr-4 rounded leading-snug focus:outline-none focus:bg-white"
                 id="grid-state"
                 name="job_type"
                 // value={job_type}
@@ -21,7 +21,7 @@ export default function SpeedMenu() {
                 <option value={100}>Medium</option>
                 <option value={25}>Fast</option>
             </select>
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center text-gray-700">
                 <svg
                     className="fill-current h-4 w-4"
                     xmlns="http://www.w3.org/2000/svg"

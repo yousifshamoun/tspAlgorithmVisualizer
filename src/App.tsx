@@ -1,6 +1,6 @@
-import React from "react";
-import Aside from "./components/Aside";
-import Map from "./components/Map";
+import React from 'react';
+import Aside from './components/Aside';
+import Map from './components/Map';
 function App() {
     return (
         <div className="flex">
