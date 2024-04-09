@@ -1,6 +1,6 @@
-import * as React from 'react';
-import store from '../store';
-import { set_delay } from '../store/action';
+import * as React from "react";
+import store from "../store";
+import { set_delay } from "../store/action";
 export default function SpeedMenu() {
     const onInputChange = (e: any) => {
         store.dispatch(set_delay(e.target.value));

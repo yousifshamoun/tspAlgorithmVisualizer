@@ -44,7 +44,7 @@ export default function MapPlot() {
                 {/* {running && <LinearProgress />} */}
                 <Map
                     mapStyle="mapbox://styles/mapbox/light-v8"
-                    mapboxAccessToken={`${process.env.REACT_APP_MAPBOX_TOKEN}`}
+                    mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
                 />
             </DeckGL>
         </div>
