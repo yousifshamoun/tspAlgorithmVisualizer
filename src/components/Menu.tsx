@@ -1,54 +1,54 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
     reset_points,
     reset_render_primary,
     reset_viewport,
     toggle_pause,
     toggle_running,
-} from '../store/action';
-import nearestNeighbor from '../algorithms/nearestNeighbor';
-import PointsSlider from '../components/PointsSlider';
-import SpeedMenu from './SpeedMenu';
-import arbitraryInsertion from '../algorithms/arbitraryInsertion';
-import furthestInsertion from '../algorithms/furthestInsertion';
-import store from '../store';
-import convexHull from '../algorithms/convexHull';
-import { useSelector } from 'react-redux';
-import { globalState } from '../store/reducer';
-import { getRandom } from '../utils/getData';
+} from "../store/action";
+import nearestNeighbor from "../algorithms/nearestNeighbor";
+import PointsSlider from "../components/PointsSlider";
+import SpeedMenu from "./SpeedMenu";
+import arbitraryInsertion from "../algorithms/arbitraryInsertion";
+import furthestInsertion from "../algorithms/furthestInsertion";
+import store from "../store";
+import convexHull from "../algorithms/convexHull";
+import { useSelector } from "react-redux";
+import { globalState } from "../store/reducer";
+import { getRandom } from "../utils/getData";
 export default function Menu() {
     const data = useSelector((state: globalState) => state.data);
     const running = useSelector((state: globalState) => state.running);
     const paused = useSelector((state: globalState) => state.paused);
     const deep_data = JSON.parse(JSON.stringify(data));
     const [selectedAlgorithm, setSelectedAlgorithm] =
-        useState('nearest neighbor');
+        useState("nearest neighbor");
     const handleStart = async () => {
         store.dispatch(toggle_running());
         switch (selectedAlgorithm) {
-            case 'nearest neighbor':
+            case "nearest neighbor":
                 await nearestNeighbor(deep_data);
                 store.dispatch(toggle_running());
                 break;
-            case 'arbitrary insertion':
+            case "arbitrary insertion":
                 await arbitraryInsertion(deep_data);
                 store.dispatch(toggle_running());
                 break;
-            case 'nearest insertion':
+            case "nearest insertion":
                 await arbitraryInsertion(deep_data);
                 store.dispatch(toggle_running());
                 break;
-            case 'furthest insertion':
+            case "furthest insertion":
                 await furthestInsertion(deep_data);
                 store.dispatch(toggle_running());
                 break;
-            case 'convex hull':
+            case "convex hull":
                 await convexHull(deep_data);
                 store.dispatch(toggle_running());
                 break;
 
             default:
-                throw new Error('Invalid Algorithm Selected');
+                throw new Error("Invalid Algorithm Selected");
         }
     };
     const onInputChange = (e: any) => setSelectedAlgorithm(e.target.value);
@@ -59,19 +59,19 @@ export default function Menu() {
     };
     const topics = [
         {
-            name: 'nearest neighbor',
+            name: "nearest neighbor",
         },
         {
-            name: 'arbitrary insertion',
+            name: "arbitrary insertion",
         },
         {
-            name: 'nearest insertion',
+            name: "nearest insertion",
         },
         {
-            name: 'furthest insertion',
+            name: "furthest insertion",
         },
         {
-            name: 'convex hull',
+            name: "convex hull",
         },
     ];
     return (
@@ -153,7 +153,7 @@ export default function Menu() {
                     className="w-1/3 flex justify-center items-center"
                     disabled={running}
                 >
-                    <p className="font-semibold text-[#00819E]">Clear Path</p>
+                    <p className="font-semibold text-[#00819E]">Clear</p>
                 </button>
             </div>
             <div className="flex rounded border-2  border-[#00819E] mt-5">

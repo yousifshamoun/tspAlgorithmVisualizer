@@ -1,4 +1,4 @@
-import Map from "react-map-gl";
+import { Map } from "react-map-gl";
 import { ScatterplotLayer, LineLayer } from "@deck.gl/layers/typed";
 // import LinearProgress from "@mui/material/LinearProgress";
 import DeckGL from "@deck.gl/react/typed";
